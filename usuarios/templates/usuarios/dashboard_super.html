@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SuperEmpleado</title>
+</head>
+
+<body>
+    <h1>Bienvenido, {{ request.user.username }} (SuperEmpleado)</h1>
+
+    <h2>Empleados a cargo:</h2>
+    <ul>
+        {% for empleado in empleados %}
+        <li>{{ empleado.username }} - {{ empleado.area }}</li>
+        {% empty %}
+        <p>No tienes empleados asignados.</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Consultas Recibidas</h2>
+    <ul>
+        {% for consulta in request.user.respuestas.all %}
+        <li>
+            <strong>{{ consulta.asunto }}</strong> - {{ consulta.empleado.username }}
+            {% if not consulta.respondida %}
+            <a href="{% url 'responder_consulta' consulta.id %}">Responder</a>
+            {% else %}
+            <span>(Respondida)</span>
+            {% endif %}
+        </li>
+        {% empty %}
+        <p>No tienes consultas pendientes.</p>
+        {% endfor %}
+    </ul>
+
+
+    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+</body>
+
+</html>

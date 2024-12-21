@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responder Consulta</title>
+</head>
+<body>
+    <h1>Responder Consulta</h1>
+    <p><strong>De:</strong> {{ consulta.empleado.username }}</p>
+    <p><strong>Asunto:</strong> {{ consulta.asunto }}</p>
+    <p><strong>Mensaje:</strong> {{ consulta.mensaje }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Responder</button>
+    </form>
+
+    <a href="{% url 'dashboard' %}">Volver al Dashboard</a>
+</body>
+</html>

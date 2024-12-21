@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Empleado</title>
+</head>
+
+<body>
+    <h1>Bienvenido, {{ request.user.username }} (Empleado)</h1>
+
+    <p><strong>Área:</strong> {{ user.area }}</p>
+    <p><strong>Jefe:</strong> {{ user.jefe.username }}</p>
+
+    <h2>Enviar Consulta</h2>
+    <a href="{% url 'enviar_consulta' %}">Nueva Consulta</a>
+
+
+    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+</body>
+
+</html>

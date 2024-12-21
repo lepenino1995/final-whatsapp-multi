@@ -1,0 +1,30 @@
+[
+    {
+        "model": "usuarios.area",
+        "pk": 1,
+        "fields": {
+            "nombre": "Atencion al Cliente"
+        }
+    },
+    {
+        "model": "usuarios.area",
+        "pk": 2,
+        "fields": {
+            "nombre": "Soporte Ventas"
+        }
+    },
+    {
+        "model": "usuarios.area",
+        "pk": 3,
+        "fields": {
+            "nombre": "Soporte Envios"
+        }
+    },
+    {
+        "model": "usuarios.area",
+        "pk": 4,
+        "fields": {
+            "nombre": "Reembolsos"
+        }
+    }
+]
