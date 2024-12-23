@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SuperEmpleado</title>
+    <title>Dashboard SuperEmpleado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center pt-10">
+    <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-4xl font-bold mb-6">Hola, {{ request.user.username }}</h1>
+        
+        <h2 class="text-2xl mb-4">Tus Empleados</h2>
+        <ul class="space-y-4">
+            {% for empleado in empleados %}
+                <li class="p-4 bg-gray-50 border rounded-lg">
+                    <p><strong>{{ empleado.username }}</strong> - {{ empleado.area }}</p>
+                </li>
+            {% empty %}
+                <p class="text-gray-600">No tienes empleados asignados.</p>
+            {% endfor %}
+        </ul>
 
-<body>
-    <h1>Bienvenido, {{ request.user.username }} (SuperEmpleado)</h1>
+        <h2 class="text-2xl mt-8">Consultas Recibidas</h2>
+        <ul class="space-y-4 mt-4">
+            {% for consulta in request.user.respuestas.all %}
+                <li class="p-4 bg-yellow-50 border rounded-lg flex justify-between items-center">
+                    <div>
+                        <p><strong>{{ consulta.asunto }}</strong> - {{ consulta.empleado.username }}</p>
+                        <p class="text-sm text-gray-600">{{ consulta.mensaje }}</p>
+                    </div>
+                    <div>
+                        {% if not consulta.respondida %}
+                            <a href="{% url 'gestionar_consulta' consulta.id %}"
+                               class="bg-blue-600 hover:bg-blue-700 text-white py-1 px-4 rounded-lg">
+                                Responder
+                            </a>
+                        {% else %}
+                            <a href="{% url 'gestionar_consulta' consulta.id %}"
+                               class="text-blue-500 hover:underline">
+                                ➡️ Ver Conversación
+                            </a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% empty %}
+                <p class="text-gray-600">No tienes consultas pendientes.</p>
+            {% endfor %}
+        </ul>
 
-    <h2>Empleados a cargo:</h2>
-    <ul>
-        {% for empleado in empleados %}
-        <li>{{ empleado.username }} - {{ empleado.area }}</li>
-        {% empty %}
-        <p>No tienes empleados asignados.</p>
-        {% endfor %}
-    </ul>
-
-    <h2>Consultas Recibidas</h2>
-    <ul>
-        {% for consulta in request.user.respuestas.all %}
-        <li>
-            <strong>{{ consulta.asunto }}</strong> - {{ consulta.empleado.username }}
-            {% if not consulta.respondida %}
-            <a href="{% url 'responder_consulta' consulta.id %}">Responder</a>
-            {% else %}
-            <span>(Respondida)</span>
-            {% endif %}
-        </li>
-        {% empty %}
-        <p>No tienes consultas pendientes.</p>
-        {% endfor %}
-    </ul>
-
-
-    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+        <div class="mt-8">
+            <a href="{% url 'logout' %}" 
+               class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                Cerrar Sesión
+            </a>
+        </div>
+    </div>
 </body>
-
 </html>

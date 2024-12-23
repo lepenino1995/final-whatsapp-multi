@@ -4,19 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responder Consulta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Responder Consulta</h1>
-    <p><strong>De:</strong> {{ consulta.empleado.username }}</p>
-    <p><strong>Asunto:</strong> {{ consulta.asunto }}</p>
-    <p><strong>Mensaje:</strong> {{ consulta.mensaje }}</p>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-3xl bg-white p-8 rounded-xl shadow-lg">
+        <h1 class="text-4xl font-bold mb-6 text-center text-gray-800">✉️ Responder Consulta</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Responder</button>
-    </form>
+        <div class="mb-6 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow">
+            <p class="text-lg"><strong>De:</strong> <span class="text-blue-600">{{ consulta.empleado.username }}</span></p>
+            <p class="text-lg"><strong>Asunto:</strong> {{ consulta.asunto }}</p>
+            <p class="mt-4 text-gray-700">{{ consulta.mensaje }}</p>
+        </div>
 
-    <a href="{% url 'dashboard' %}">Volver al Dashboard</a>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label for="id_respuesta" class="block text-sm font-medium text-gray-700">Respuesta</label>
+                {{ form.respuesta }}
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-transform duration-200 transform hover:scale-105 shadow-md">
+                ✍️ Enviar Respuesta
+            </button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <a href="{% url 'dashboard' %}" 
+               class="text-blue-500 font-medium hover:underline hover:text-blue-700 transition-all">
+                ⬅️ Volver al Dashboard
+            </a>
+        </div>
+    </div>
 </body>
 </html>

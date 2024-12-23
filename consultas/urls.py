@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('enviar/', views.enviar_consulta, name='enviar_consulta'),
-    path('responder/<int:consulta_id>/', views.responder_consulta, name='responder_consulta'),
+    path('gestionar/<int:consulta_id>/', views.gestionar_consulta, name='gestionar_consulta'),
 ]

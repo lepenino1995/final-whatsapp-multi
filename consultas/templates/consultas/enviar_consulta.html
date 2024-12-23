@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enviar Consulta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Enviar Consulta</h1>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-lg bg-white p-8 rounded-xl shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Enviar Consulta</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Enviar</button>
-    </form>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg">
+                📩 Enviar
+            </button>
+        </form>
 
-    <a href="{% url 'dashboard' %}">Volver al Dashboard</a>
+        <div class="mt-8 text-center">
+            <a href="{% url 'dashboard' %}" class="text-blue-500 hover:underline">⬅️ Volver al Dashboard</a>
+        </div>
+    </div>
 </body>
 </html>

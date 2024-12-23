@@ -1,23 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Empleado</title>
+    <title>Dashboard Empleado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center pt-10">
+    <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-4xl font-bold mb-6">Bienvenido, {{ request.user.username }}</h1>
 
-<body>
-    <h1>Bienvenido, {{ request.user.username }} (Empleado)</h1>
+        <div class="mb-6">
+            <p><strong class="text-gray-700">Área:</strong> {{ user.area }}</p>
+            <p><strong class="text-gray-700">Jefe:</strong> {{ user.jefe.username }}</p>
+        </div>
 
-    <p><strong>Área:</strong> {{ user.area }}</p>
-    <p><strong>Jefe:</strong> {{ user.jefe.username }}</p>
+        <div class="flex justify-between items-center">
+            <a href="{% url 'enviar_consulta' %}"
+               class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
+                Enviar Nueva Consulta
+            </a>
+            <a href="{% url 'logout' %}"
+               class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                Cerrar Sesión
+            </a>
+        </div>
 
-    <h2>Enviar Consulta</h2>
-    <a href="{% url 'enviar_consulta' %}">Nueva Consulta</a>
+        <h2 class="text-2xl mt-10">Mis Consultas</h2>
+        <ul class="space-y-4 mt-4">
+            {% for consulta in request.user.consultas.all %}
+                <li class="p-4 bg-gray-50 border rounded-lg">
+                    <p><strong>Asunto:</strong> {{ consulta.asunto }}</p>
+                    <p><strong>Mensaje:</strong> {{ consulta.mensaje }}</p>
+                    <p class="mt-2"><strong class="text-gray-700">Respuesta:</strong></p>
+                    
+                    {% if consulta.respuesta %}
+                        <div class="p-4 bg-green-50 border rounded-lg mt-2">
+                            {{ consulta.respuesta }}
+                        </div>
+                    {% else %}
+                        <p class="text-yellow-600">Sin respuesta aún.</p>
+                    {% endif %}
 
+                    <div class="mt-4">
+                        <a href="{% url 'gestionar_consulta' consulta.id %}"
+                           class="text-blue-500 hover:underline">
+                            ➡️ Ver y Continuar Conversación
+                        </a>
+                    </div>
+                </li>
+            {% empty %}
+                <p class="text-gray-600">No has enviado consultas.</p>
+            {% endfor %}
+        </ul>
 
-    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+    </div>
 </body>
-
 </html>
